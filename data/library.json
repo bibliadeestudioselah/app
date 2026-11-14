@@ -1,0 +1,22 @@
+{
+  "dictionary": [
+    { "term": "Aarón", "definition": "Sumo sacerdote de Israel, hermano de Moisés. Dios lo eligió para hablar en nombre de Moisés ante Faraón. (Ver Éxodo 4:14-16).", "image": "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=400&auto=format&fit=crop" },
+    { "term": "Fe", "definition": "Confianza absoluta en Dios y en sus promesas. Es la certeza de lo que se espera, la convicción de lo que no se ve (Hebreos 11:1).", "image": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?q=80&w=400&auto=format&fit=crop" },
+    { "term": "Gracia", "definition": "Favor inmerecido de Dios hacia la humanidad. Es el regalo de la salvación que no podemos ganar por nuestras obras (Efesios 2:8-9).", "image": "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=400&auto=format&fit=crop" }
+  ],
+  "encyclopedia": [
+    { "title": "El Tabernáculo", "content": "Era una tienda móvil que sirvió como lugar de adoración y encuentro con Dios para los israelitas durante su travesía por el desierto. Representaba la presencia de Dios en medio de su pueblo.", "image": "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=400&auto=format&fit=crop" },
+    { "title": "Jerusalén", "content": "Ciudad santa para el judaísmo, el cristianismo y el islam. Fue la capital del reino de David y Salomón, y donde se construyó el Templo.", "image": "https://images.unsplash.com/photo-1544967082-d9d25d867d66?q=80&w=400&auto=format&fit=crop" }
+  ],
+  "strongs": [
+    { "number": "H430", "word": "אֱלֹהִים (Elohim)", "definition": "Dios, plural de majestad. Se usa para referirse al Creador supremo." },
+    { "number": "G26", "word": "ἀγάπη (Agape)", "definition": "Amor incondicional, sacrificial y divino. Es el amor que Dios tiene por la humanidad." }
+  ],
+  "outlines": [
+    { "book": "Génesis", "theme": "El origen de todo", "points": ["La Creación (1-2)", "La Caída y el pecado (3)", "El Diluvio y Noé (6-9)", "La Torre de Babel (11)", "El llamado de Abraham (12)"] }
+  ],
+  "maps": [
+    { "title": "El Viaje de Abraham", "description": "Ruta desde Ur de los caldeos hasta la tierra de Canaán.", "image": "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop" },
+    { "title": "El Éxodo de Israel", "description": "La salida del pueblo de Israel de Egipto hacia la Tierra Prometida.", "image": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&w=600&auto=format&fit=crop" }
+  ]
+}

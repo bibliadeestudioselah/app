@@ -1,0 +1,33 @@
+{
+  "plans": [
+    {
+      "id": "canonico",
+      "name": "Canónico (1 año)",
+      "desc": "Lee la Biblia de Génesis a Apocalipsis.",
+      "days": [
+        { "day": 1, "readings": ["Génesis 1", "Génesis 2"] },
+        { "day": 2, "readings": ["Génesis 3", "Génesis 4"] },
+        { "day": 3, "readings": ["Génesis 5", "Génesis 6"] }
+      ]
+    },
+    {
+      "id": "cronologico",
+      "name": "Cronológico (1 año)",
+      "desc": "Lee la Biblia en el orden en que ocurrieron los eventos.",
+      "days": [
+        { "day": 1, "readings": ["Génesis 1", "Génesis 2", "Génesis 3"] },
+        { "day": 2, "readings": ["Génesis 4", "Génesis 5"] },
+        { "day": 3, "readings": ["Génesis 6", "Génesis 7"] }
+      ]
+    },
+    {
+      "id": "historico",
+      "name": "Histórico",
+      "desc": "Un recorrido por la historia bíblica.",
+      "days": [
+        { "day": 1, "readings": ["Josué 1", "Josué 2"] },
+        { "day": 2, "readings": ["Josué 3", "Josué 4"] }
+      ]
+    }
+  ]
+}
