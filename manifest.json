@@ -1,0 +1,57 @@
+{
+  "name": "Biblia de Estudio Selah",
+  "short_name": "Selah",
+  "description": "Una pausa que transforma, una Palabra que permanece.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FBF7EF",
+  "theme_color": "#1B2A41",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["books", "education", "lifestyle"],
+  "icons": [
+    { 
+      "src": "icons/icon-192.png", 
+      "sizes": "192x192", 
+      "type": "image/png", 
+      "purpose": "any" 
+    },
+    { 
+      "src": "icons/icon-512.png", 
+      "sizes": "512x512", 
+      "type": "image/png", 
+      "purpose": "any" 
+    },
+    { 
+      "src": "icons/maskable-192.png", 
+      "sizes": "192x192", 
+      "type": "image/png", 
+      "purpose": "maskable" 
+    },
+    { 
+      "src": "icons/maskable-512.png", 
+      "sizes": "512x512", 
+      "type": "image/png", 
+      "purpose": "maskable" 
+    }
+  ],
+  "shortcuts": [
+    { 
+      "name": "Leer Biblia", 
+      "url": "./index.html#bible", 
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] 
+    },
+    { 
+      "name": "Buscar", 
+      "url": "./index.html#search", 
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] 
+    },
+    { 
+      "name": "Plan de lectura", 
+      "url": "./index.html#plans", 
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] 
+    }
+  ]
+}
