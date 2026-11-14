@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Fondo Oscuro Profundo -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#1B2A41"/>
+      <stop offset="100%" stop-color="#060A10"/>
+    </radialGradient>
+
+    <!-- Gradiente de Oro Metalizado Principal -->
+    <linearGradient id="goldMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8A5A22"/>
+      <stop offset="15%" stop-color="#FCE181"/>
+      <stop offset="30%" stop-color="#FFF8D6"/>
+      <stop offset="50%" stop-color="#C99539"/>
+      <stop offset="70%" stop-color="#F2D06B"/>
+      <stop offset="85%" stop-color="#FFF8D6"/>
+      <stop offset="100%" stop-color="#8A5A22"/>
+    </linearGradient>
+
+    <!-- Gradiente de Oro Vertical (Para la Cruz) -->
+    <linearGradient id="goldVert" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#C99539"/>
+      <stop offset="40%" stop-color="#FFF8D6"/>
+      <stop offset="60%" stop-color="#8A5A22"/>
+      <stop offset="100%" stop-color="#FCE181"/>
+    </linearGradient>
+
+    <!-- Sombra para dar profundidad -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000" flood-opacity="0.8"/>
+    </filter>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Fondo Redondeado de la App -->
+  <rect width="512" height="512" rx="110" fill="url(#bgGrad)"/>
+  
+  <!-- Borde interior dorado sutil -->
+  <rect x="16" y="16" width="480" height="480" rx="94" fill="none" stroke="url(#goldMetal)" stroke-width="2" opacity="0.3"/>
+
+  <!-- 🌟 LA BIBLIA 🌟 -->
+  <g transform="translate(256, 200)" filter="url(#dropShadow)">
+    <!-- Lomo del libro (Lado izquierdo) -->
+    <rect x="-120" y="-100" width="24" height="200" rx="6" fill="#0D131C" stroke="url(#goldMetal)" stroke-width="3"/>
+    
+    <!-- Páginas (Lado derecho) -->
+    <rect x="106" y="-96" width="14" height="192" rx="2" fill="#FBF7EF" stroke="#C99539" stroke-width="2"/>
+    
+    <!-- Tapas del libro -->
+    <rect x="-96" y="-100" width="202" height="200" rx="8" fill="#111827" stroke="url(#goldMetal)" stroke-width="4"/>
+    <rect x="-88" y="-92" width="186" height="184" rx="4" fill="none" stroke="url(#goldMetal)" stroke-width="1.5" opacity="0.5"/>
+
+    <!-- Listón rojo (Marcapáginas) cayendo por la derecha -->
+    <path d="M 70 -100 L 90 -100 L 90 60 L 80 50 L 70 60 Z" fill="#A31621" stroke="#5A0A10" stroke-width="2"/>
+
+    <!-- Cruz Dorada (Posición equilibrada) -->
+    <g transform="translate(5, -10)" filter="url(#glow)">
+      <!-- Sombra de la cruz -->
+      <path d="M -8 -60 L 8 -60 L 8 -32 L 35 -32 L 35 -16 L 8 -16 L 8 60 L -8 60 L -8 -16 L -35 -16 L -35 -32 L -8 -32 Z" fill="#000" opacity="0.5" transform="translate(2, 2)"/>
+      <!-- Cruz Metalizada -->
+      <path d="M -8 -60 L 8 -60 L 8 -32 L 35 -32 L 35 -16 L 8 -16 L 8 60 L -8 60 L -8 -16 L -35 -16 L -35 -32 L -8 -32 Z" fill="url(#goldVert)"/>
+    </g>
+  </g>
+
+  <!-- Texto "Selah" con Oro Metalizado -->
+  <text x="256" y="420" font-family="'Georgia', 'Times New Roman', serif" font-size="100" font-weight="bold" fill="url(#goldMetal)" text-anchor="middle" filter="url(#dropShadow)" letter-spacing="3">Selah</text>
+</svg>
