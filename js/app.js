@@ -68,7 +68,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   Router.register('about', async (main) => {
     main.innerHTML = `
       <section class="card" style="margin-bottom:16px;">
-        <h3 class="section-title">🕊️ Biblia de Estudio Selah</h3>
+        <!-- Título con ID para detectar los 5 toques -->
+        <h3 class="section-title" id="admin-secret-trigger">🕊️ Biblia de Estudio Selah</h3>
         <p style="font-size:.95rem; color:var(--text-secondary); margin-bottom:16px; line-height: 1.5;">Una aplicación para el estudio profundo de la Palabra, 100% offline y sin fines de lucro.</p>
         <p style="font-size:.9rem; color:var(--text); line-height: 1.6;"><strong>Privacidad:</strong> Tus notas, favoritos y progreso se guardan únicamente en tu dispositivo. No tenemos servidores ni recopilamos tus datos.</p>
       </section>
@@ -108,9 +109,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         </details>
       </section>
 
-      <section class="card" style="margin-bottom:16px;">
+      <!-- PANEL DE ADMINISTRADOR OCULTO POR DEFECTO -->
+      <section class="card" id="admin-panel" style="margin-bottom:16px; display: none; border: 2px solid var(--accent);">
         <h3 class="section-title">🔐 Panel de Administrador</h3>
-        <p style="font-size:.9rem; color:var(--text-secondary); margin-bottom:16px; line-height: 1.5;">Genera el código para el tablón de anuncios. Luego ve a GitHub, abre <code>data/announcement.json</code>, borra todo y pega el nuevo código.</p>
+        <p style="font-size:.9rem; color:var(--text-secondary); margin-bottom:16px; line-height: 1.5;">Genera el código para el tablón de anuncios. Luego ve a GitHub y pégalo en el archivo indicado.</p>
         <div style="display:flex; flex-direction:column; gap:12px;">
           <input type="text" id="adm-title" placeholder="Título del anuncio" style="width:100%; padding:12px; border-radius:var(--radius-md); border:1px solid var(--border); background:var(--bg); color:var(--text);">
           <textarea id="adm-msg" placeholder="Mensaje..." rows="3" style="width:100%; padding:12px; border-radius:var(--radius-md); border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit;"></textarea>
@@ -123,6 +125,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         <p style="font-size:.85rem; color:var(--text-secondary); line-height: 1.6;">Citas bíblicas tomadas de la Reina-Valera 1960. El texto bíblico ha sido tomado de la versión Reina-Valera © 1960 Sociedades Bíblicas en América Latina; © renovado 1988 Sociedades Bíblicas Unidas.</p>
       </section>
     `;
+
+    // Lógica del Modo Oculto (5 toques en el título)
+    let secretTaps = 0;
+    let secretTimer;
+    const trigger = document.getElementById('admin-secret-trigger');
+    
+    trigger.addEventListener('click', () => {
+      secretTaps++;
+      clearTimeout(secretTimer);
+      secretTimer = setTimeout(() => { secretTaps = 0; }, 800); // Se reinicia si pasa más de 0.8s
+      
+      if (secretTaps === 5) {
+        const panel = document.getElementById('admin-panel');
+        if (panel.style.display === 'none') {
+          panel.style.display = 'block';
+          showToast('Modo Administrador Activado', '🔓');
+        } else {
+          panel.style.display = 'none';
+        }
+        secretTaps = 0;
+      }
+    });
   });
 
   document.querySelectorAll('.nav-btn').forEach(btn => {
