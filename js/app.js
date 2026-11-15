@@ -19,12 +19,11 @@ const DailyVerses = [
 document.addEventListener('DOMContentLoaded', async () => {
   await ThemeManager.init();
 
-  // Configurar Sincronización en 2do Plano (4:00 PM)
   if ('serviceWorker' in navigator && 'periodicSync' in window.ServiceWorkerRegistration.prototype) {
     try {
       const registration = await navigator.serviceWorker.ready;
       await registration.periodicSync.register('update-check', {
-        minInterval: 24 * 60 * 60 * 1000 // 24 horas
+        minInterval: 24 * 60 * 60 * 1000
       });
       console.log('✅ Sincronización en 2do plano registrada');
     } catch (e) {
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   Router.register('home', async (main) => {
     const randomVerse = DailyVerses[Math.floor(Math.random() * DailyVerses.length)];
     
-    // Cargar cartelón de anuncio
     let announcementHtml = '';
     try {
       const resAnn = await fetch('./data/announcement.json');
@@ -79,6 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   Router.register('plans', async (main) => { ReadingPlans.render(main); });
   Router.register('library', async (main) => { BibleLibrary.render(main); });
 
+  // ℹ️ Acerca de - CON DONACIONES OCULTAS
   Router.register('about', async (main) => {
     main.innerHTML = `
       <section class="card" style="margin-bottom:16px;">
@@ -89,29 +88,37 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       <section class="card" style="margin-bottom:16px;">
         <h3 class="section-title">💖 Apoya este ministerio</h3>
-        <p style="font-size:.9rem; color:var(--text-secondary); margin-bottom:16px;">Si deseas bendecir este trabajo voluntario, puedes hacerlo por cualquiera de estos medios:</p>
+        <p style="font-size:.9rem; color:var(--text-secondary); margin-bottom:16px;">Si deseas bendecir este trabajo voluntario, puedes hacerlo. Toca el botón para ver los datos:</p>
         
-        <div style="background:var(--surface-hover); padding:16px; border-radius:var(--radius-md); margin-bottom:12px;">
-          <p style="font-weight:bold; color:var(--accent); margin-bottom:8px;">🪙 Binance</p>
-          <p style="font-size:.9rem; margin-bottom:4px;"><strong>UID:</strong> 566401325</p>
-          <p style="font-size:.85rem; color:var(--text-muted);">Nombre: Emmanuel Manosalva</p>
-          <button class="btn btn-secondary" style="margin-top:8px; width:100%; font-size:.8rem;" onclick="navigator.clipboard.writeText('566401325'); showToast('UID copiado', '📋');">Copiar UID</button>
-        </div>
+        <details style="background:var(--surface-hover); border-radius:var(--radius-md); padding:12px;">
+          <summary style="cursor:pointer; font-weight:bold; color:var(--accent);">Ver datos para donaciones</summary>
+          <div style="margin-top:12px; display:flex; flex-direction:column; gap:12px;">
+            
+            <div style="background:var(--surface); padding:12px; border-radius:var(--radius-md);">
+              <p style="font-weight:bold; color:var(--accent); margin-bottom:8px;">🪙 Binance</p>
+              <p style="font-size:.9rem; margin-bottom:4px;"><strong>UID:</strong> 566401325</p>
+              <p style="font-size:.85rem; color:var(--text-muted);">Nombre: Emmanuel Manosalva</p>
+              <button class="btn btn-secondary" style="margin-top:8px; width:100%; font-size:.8rem;" onclick="navigator.clipboard.writeText('566401325'); showToast('UID copiado', '📋');">Copiar UID</button>
+            </div>
 
-        <div style="background:var(--surface-hover); padding:16px; border-radius:var(--radius-md); margin-bottom:12px;">
-          <p style="font-weight:bold; color:var(--accent); margin-bottom:8px;">🏦 Banco de Venezuela (VES)</p>
-          <p style="font-size:.9rem; margin-bottom:4px;"><strong>Cuenta:</strong> 01020645620000218630</p>
-          <p style="font-size:.9rem; margin-bottom:4px;"><strong>Cédula:</strong> V-20124815</p>
-          <p style="font-size:.9rem; margin-bottom:4px;"><strong>Teléfono (Pago Móvil):</strong> 04262840546</p>
-        </div>
+            <div style="background:var(--surface); padding:12px; border-radius:var(--radius-md);">
+              <p style="font-weight:bold; color:var(--accent); margin-bottom:8px;">🏦 Banco de Venezuela (VES)</p>
+              <p style="font-size:.9rem; margin-bottom:4px;"><strong>Cuenta:</strong> 01020645620000218630</p>
+              <p style="font-size:.9rem; margin-bottom:4px;"><strong>Cédula:</strong> V-20124815</p>
+              <p style="font-size:.9rem; margin-bottom:4px;"><strong>Teléfono (Pago Móvil):</strong> 04262840546</p>
+              <button class="btn btn-secondary" style="margin-top:8px; width:100%; font-size:.8rem;" onclick="navigator.clipboard.writeText('01020645620000218630'); showToast('Cuenta copiada', '📋');">Copiar Cuenta</button>
+            </div>
 
-        <div style="background:var(--surface-hover); padding:16px; border-radius:var(--radius-md);">
-          <p style="font-weight:bold; color:var(--accent); margin-bottom:8px;">🏦 Banco de Venezuela (USD)</p>
-          <p style="font-size:.9rem; margin-bottom:4px;"><strong>Cuenta:</strong> 01020645600000080145</p>
-          <p style="font-size:.9rem; margin-bottom:4px;"><strong>Cédula:</strong> V-20124815</p>
-        </div>
-        
-        <p style="font-size:.85rem; margin-top:16px; text-align:center;">📧 Contacto: <br><strong>creativapaginaweb@gmail.com</strong></p>
+            <div style="background:var(--surface); padding:12px; border-radius:var(--radius-md);">
+              <p style="font-weight:bold; color:var(--accent); margin-bottom:8px;">🏦 Banco de Venezuela (USD)</p>
+              <p style="font-size:.9rem; margin-bottom:4px;"><strong>Cuenta:</strong> 01020645600000080145</p>
+              <p style="font-size:.9rem; margin-bottom:4px;"><strong>Cédula:</strong> V-20124815</p>
+              <button class="btn btn-secondary" style="margin-top:8px; width:100%; font-size:.8rem;" onclick="navigator.clipboard.writeText('01020645600000080145'); showToast('Cuenta copiada', '📋');">Copiar Cuenta</button>
+            </div>
+            
+            <p style="font-size:.85rem; margin-top:16px; text-align:center;">📧 Contacto: <br><strong>creativapaginaweb@gmail.com</strong></p>
+          </div>
+        </details>
       </section>
 
       <section class="card">
