@@ -4,6 +4,9 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition), box-shadow var(--transition);
+  /* 🆕 Evita que el contenido de la tarjeta se desborde */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .card:hover { box-shadow: var(--shadow-md); }
 
@@ -12,6 +15,9 @@
   font-size: 1.1rem; font-weight: 700;
   color: var(--text); margin-bottom: 12px;
   display: flex; align-items: center; gap: 8px;
+  /* 🆕 Asegura que el título no se desborde */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .btn {
@@ -21,6 +27,9 @@
   border-radius: var(--radius-md);
   font-family: var(--font-ui); font-weight: 600; font-size: .9rem;
   cursor: pointer; transition: background var(--transition), transform var(--transition);
+  /* 🆕 Asegura que el texto del botón no se desborde */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .btn:hover { background: var(--accent-strong); }
 .btn:active { transform: scale(.97); }
@@ -30,11 +39,15 @@
 }
 .btn-secondary:hover { background: var(--surface-hover); }
 
+/* Texto bíblico con palabras de Dios en rojo */
 .scripture-text {
   font-family: var(--font-scripture);
   font-size: var(--font-size-scripture);
   line-height: var(--line-height-scripture);
   color: var(--text);
+  /* 🆕 Evita que el texto bíblico se desborde */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .words-of-god { color: var(--red-letter); font-weight: 500; }
 
@@ -62,6 +75,9 @@
   border-radius: var(--radius-lg); padding: 16px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 1000;
   transform: translateY(120%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* 🆕 Asegura que el reproductor no se desborde */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .audio-player.active { transform: translateY(0); }
 .audio-player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
