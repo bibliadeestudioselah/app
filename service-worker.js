@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'selah-v5.0.0';
+const CACHE_VERSION = 'selah-v6.0.0';
 const APP_SHELL = [
   './', './index.html', './manifest.json',
   './css/base.css', './css/themes.css', './css/layout.css', './css/components.css',
@@ -7,7 +7,7 @@ const APP_SHELL = [
   './js/plans.js', './js/audio.js', './js/app.js',
   './data/RVR1960.json', './data/library.json', './data/plans.json', './data/announcement.json',
   './data/audio-map.json',
-  './icons/icon-192.png', './icons/icon-512.png'
+  './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-192.png', './icons/maskable-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -25,24 +25,30 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Estrategia: Stale-While-Revalidate (Carga rápido desde caché y actualiza en silencio)
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-      return fetch(request).then(response => {
-        if (response.ok && request.url.startsWith(self.location.origin)) {
-          const clone = response.clone();
-          caches.open(CACHE_VERSION).then(cache => cache.put(request, clone));
+    caches.open(CACHE_VERSION).then(async (cache) => {
+      const cachedResponse = await cache.match(request);
+      
+      const fetchPromise = fetch(request).then((networkResponse) => {
+        if (networkResponse.ok && request.url.startsWith(self.location.origin)) {
+          cache.put(request, networkResponse.clone());
         }
-        return response;
-      }).catch(() => caches.match('./index.html'));
+        return networkResponse;
+      }).catch(() => null);
+
+      // Devuelve lo que está en caché inmediatamente (sin esperar a internet)
+      // Si no hay caché, espera la respuesta de internet.
+      return cachedResponse || fetchPromise || caches.match('./index.html');
     })
   );
 });
 
-// Sincronización en segundo plano (4:00 PM)
+// Mantenemos la sincronización de fondo para cuando la app esté cerrada
 self.addEventListener('periodicsync', (event) => {
   if (event.tag === 'update-check') {
     event.waitUntil(checkForUpdates());
@@ -50,15 +56,9 @@ self.addEventListener('periodicsync', (event) => {
 });
 
 async function checkForUpdates() {
-  console.log('🔄 Buscando actualizaciones en segundo plano...');
   try {
-    // En un caso real, aquí consultarías un archivo version.json en tu GitHub
-    // Si la versión es diferente, forzarías la actualización del caché.
-    const response = await fetch('./index.html', { cache: 'no-store' });
-    if (response.ok) {
-      console.log('✅ App revisada. Todo al día.');
-    }
+    await fetch('./data/announcement.json', { cache: 'no-store' });
   } catch (error) {
-    console.log('❌ Sin conexión. Se reintentará cuando haya red.');
+    // Silencioso, se reintentará luego
   }
 }
