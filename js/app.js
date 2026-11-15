@@ -19,12 +19,40 @@ const DailyVerses = [
 document.addEventListener('DOMContentLoaded', async () => {
   await ThemeManager.init();
 
+  // Registrar el Service Worker para Sincronización en Segundo Plano
+  if ('serviceWorker' in navigator && 'periodicSync' in window.ServiceWorkerRegistration.prototype) {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      await registration.periodicSync.register('update-check', {
+        minInterval: 24 * 60 * 60 * 1000 // 24 horas (límite del sistema Android)
+      });
+    } catch (e) {
+      console.log('Sincronización en 2do plano:', e);
+    }
+  }
+
+  // ⏱️ TEMPORIZADOR DE 1 MINUTO (Búsqueda silenciosa mientras la app está abierta)
+  setInterval(async () => {
+    try {
+      // Añadimos un timestamp para forzar al navegador a pedir el archivo real y no usar su caché
+      const res = await fetch('./data/announcement.json?t=' + Date.now());
+      if (res.ok) {
+        // El Service Worker ya actualizó la caché en silencio. 
+        // No hacemos nada en la interfaz para no interrumpir al usuario.
+        console.log('🔄 Chequeo silencioso de actualizaciones completado');
+      }
+    } catch (e) {
+      // Si no hay internet, falla en silencio.
+    }
+  }, 60000); // 60000 milisegundos = 1 minuto
+
   Router.register('home', async (main) => {
     const randomVerse = DailyVerses[Math.floor(Math.random() * DailyVerses.length)];
     
     let announcementHtml = '';
     try {
-      const resAnn = await fetch('./data/announcement.json');
+      // Añadimos el timestamp aquí también para asegurar que lee la última versión
+      const resAnn = await fetch('./data/announcement.json?t=' + Date.now());
       const ann = await resAnn.json();
       if (ann.active) {
         announcementHtml = `
@@ -68,7 +96,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   Router.register('about', async (main) => {
     main.innerHTML = `
       <section class="card" style="margin-bottom:16px;">
-        <!-- Título con ID para detectar los 5 toques -->
         <h3 class="section-title" id="admin-secret-trigger">🕊️ Biblia de Estudio Selah</h3>
         <p style="font-size:.95rem; color:var(--text-secondary); margin-bottom:16px; line-height: 1.5;">Una aplicación para el estudio profundo de la Palabra, 100% offline y sin fines de lucro.</p>
         <p style="font-size:.9rem; color:var(--text); line-height: 1.6;"><strong>Privacidad:</strong> Tus notas, favoritos y progreso se guardan únicamente en tu dispositivo. No tenemos servidores ni recopilamos tus datos.</p>
@@ -109,7 +136,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         </details>
       </section>
 
-      <!-- PANEL DE ADMINISTRADOR OCULTO POR DEFECTO -->
       <section class="card" id="admin-panel" style="margin-bottom:16px; display: none; border: 2px solid var(--accent);">
         <h3 class="section-title">🔐 Panel de Administrador</h3>
         <p style="font-size:.9rem; color:var(--text-secondary); margin-bottom:16px; line-height: 1.5;">Genera el código para el tablón de anuncios. Luego ve a GitHub y pégalo en el archivo indicado.</p>
@@ -134,7 +160,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     trigger.addEventListener('click', () => {
       secretTaps++;
       clearTimeout(secretTimer);
-      secretTimer = setTimeout(() => { secretTaps = 0; }, 800); // Se reinicia si pasa más de 0.8s
+      secretTimer = setTimeout(() => { secretTaps = 0; }, 800);
       
       if (secretTaps === 5) {
         const panel = document.getElementById('admin-panel');
@@ -171,7 +197,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }, 900);
 });
 
-// Función global para generar el JSON del anuncio
 window.generateAnnouncement = function() {
   const title = document.getElementById('adm-title').value || "📢 Aviso Importante";
   const msg = document.getElementById('adm-msg').value || "Escribe tu mensaje aquí.";
