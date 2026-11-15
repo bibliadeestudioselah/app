@@ -7,16 +7,23 @@ const BibleSearch = {
     this.isIndexing = true;
     
     try {
-      const response = await fetch('./data/RVR1960.json');
-      const data = await response.json();
+      // Aseguramos que la Biblia esté cargada antes de indexar
+      if (!BibleReader.data) {
+        await BibleReader.init();
+      }
       
+      const data = BibleReader.data;
+      if (!data) throw new Error('No hay datos de la Biblia para indexar.');
+
       const documents = [];
       data.forEach((book) => {
+        if (!book.chapters) return;
         book.chapters.forEach((chapter, chapterIndex) => {
+          if (!chapter.items) return;
           chapter.items.forEach(item => {
             if (item.type === 'verse') {
-              const verseNum = item.verse_numbers[0];
-              const text = item.lines.join(' ');
+              const verseNum = item.verse_numbers ? item.verse_numbers[0] : (item.verse || '');
+              const text = item.lines ? item.lines.join(' ') : '';
               documents.push({
                 id: `${book.name} ${chapterIndex + 1}:${verseNum}`,
                 book: book.name,
@@ -36,14 +43,13 @@ const BibleSearch = {
           boost: { book: 2 },
           fuzzy: 0.2,
           processTerm: (term) => {
-            return term.toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '');
+            return term.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
           }
         }
       });
 
       this.miniSearch.addAll(documents);
+      console.log('✅ Índice de búsqueda construido con', documents.length, 'versículos');
     } catch (error) {
       console.error('Error construyendo el índice:', error);
     } finally {
@@ -64,6 +70,7 @@ const BibleSearch = {
     const input = document.getElementById('search-input');
     const resultsDiv = document.getElementById('search-results');
 
+    // Construir el índice en segundo plano
     if (!this.miniSearch) {
       resultsDiv.innerHTML = '<p class="placeholder">⏳ Preparando el índice de búsqueda...</p>';
       this.buildIndex().then(() => {
@@ -88,9 +95,9 @@ const BibleSearch = {
       }
 
       resultsDiv.innerHTML = results.map(r => `
-        <div class="card" style="margin-bottom: 12px; padding: 12px;">
-          <p style="font-size: 0.8rem; color: var(--accent); font-weight: bold; margin-bottom: 4px;">${r.book} ${r.chapter}:${r.verse}</p>
-          <p class="scripture-text" style="font-size: 0.95rem;">${r.text}</p>
+        <div class="card" style="margin-bottom: 12px; padding: 16px;">
+          <p style="font-size: 0.85rem; color: var(--accent); font-weight: bold; margin-bottom: 8px;">${r.book} ${r.chapter}:${r.verse}</p>
+          <p class="scripture-text" style="font-size: 0.95rem; line-height: 1.6;">${r.text}</p>
         </div>
       `).join('');
     });
